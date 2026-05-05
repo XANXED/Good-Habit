@@ -2,32 +2,43 @@
 
 A Telegram bot for group habit, task, and sleep tracking.
 
-Every morning the bot sends a daily plan, every evening - a summary report. One hour before the evening report, an intermediate snapshot is sent so everyone can see what's done and what's still pending.
-
-## Features
-
-- **Привычки** - recurring goals (no date), checked off each day
-- **Задачи** - daily to-dos, cleared after the evening report
-- **Заметки** - shown only in the evening report, also cleared afterwards
-- **Сон** - log sleep duration, every 14 days the morning report includes a two-week average
-- **Расписание** - morning and evening report times are configurable per group
+Every morning the bot sends a daily plan, every evening — a summary report. One hour before the evening report, an intermediate snapshot is sent so everyone can see what's done and what's still pending.
 
 ## Getting Started
 
-1. Install dependencies:
-   ```bash
-   pip install aiogram aiosqlite pytz
-   ```
+First, add your bot token to `bot/config.py`:
+```python
+API_TOKEN = 'your_token_here'
+```
 
-2. Add your bot token to `config.py`:
-   ```python
-   API_TOKEN = 'your_token_here'
-   ```
+Then pick your platform:
 
-3. Run:
-   ```bash
-   python3 main.py
-   ```
+**Linux / macOS**
+```bash
+bash install_run.sh
+```
+
+**Windows**
+```
+install_run.bat
+```
+
+Both scripts install the required dependencies and start the bot automatically.
+
+### Manual setup (any platform)
+
+```bash
+pip install aiogram aiosqlite pytz
+python3 main.py
+```
+
+## Features
+
+- **Habits** — recurring goals (no date), checked off each day
+- **Tasks** — daily to-dos, cleared after the evening report
+- **Notes** — shown only in the evening report, also cleared afterwards
+- **Sleep** — log sleep duration; every 14 days the morning report includes a two-week average
+- **Schedule** — morning and evening report times are configurable per group
 
 ## Commands
 
@@ -44,19 +55,22 @@ Everything else is managed via buttons in the bot's private chat.
 ## File Structure
 
 ```
-main.py       - entry point, starts the bot
-config.py     - token, timezone, DB path
-handlers.py   - all message and button handlers
-reports.py    - morning / evening / pre-evening report generation
-scheduler.py  - timer loop: sends reports on schedule
-database.py   - DB initialization and core queries
-keyboards.py  - reply and inline keyboards
-states.py     - FSM states (habit input, task input, etc.)
-utils.py      - helper functions
+main.py            — entry point, starts the bot
+install_run.sh     — Linux/macOS: install deps and run
+install_run.bat    — Windows: install deps and run
+bot/
+  config.py        — token, timezone, DB path
+  handlers.py      — all message and button handlers
+  reports.py       — morning / evening / pre-evening report generation
+  scheduler.py     — timer loop: sends reports on schedule
+  database.py      — DB initialization and core queries
+  keyboards.py     — reply and inline keyboards
+  states.py        — FSM states (habit input, task input, etc.)
+  utils.py         — helper functions
 ```
 
 ## Stack
 
-- [aiogram 3](https://docs.aiogram.dev/) - Telegram Bot API
-- [aiosqlite](https://aiosqlite.omnilib.dev/) - async SQLite
-- [pytz](https://pythonhosted.org/pytz/) - timezone handling
+- [aiogram 3](https://docs.aiogram.dev/) — Telegram Bot API
+- [aiosqlite](https://aiosqlite.omnilib.dev/) — async SQLite
+- [pytz](https://pythonhosted.org/pytz/) — timezone handling
