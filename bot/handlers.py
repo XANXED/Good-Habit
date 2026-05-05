@@ -4,12 +4,12 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from config import DB_PATH
-from database import get_tasks
-from keyboards import get_private_kb, get_user_groups_kb
-from reports import send_report_to_chat
-from states import Form
-from utils import get_now_msk
+from .config import DB_PATH
+from .database import get_tasks
+from .keyboards import get_private_kb, get_user_groups_kb
+from .reports import send_report_to_chat
+from .states import Form
+from .utils import get_now_msk
 
 router = Router()
 

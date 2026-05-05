@@ -3,10 +3,10 @@ import logging
 
 from aiogram import Bot, Dispatcher
 
-from config import API_TOKEN
-from database import init_db
-from handlers import router
-from scheduler import check_time_loop, send_startup_notifications
+from bot.config import API_TOKEN
+from bot.database import init_db
+from bot.handlers import router
+from bot.scheduler import check_time_loop, send_startup_notifications
 
 logging.basicConfig(level=logging.INFO)
 

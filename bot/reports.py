@@ -4,9 +4,9 @@ from datetime import datetime, timedelta
 import aiosqlite
 from aiogram import Bot
 
-from config import DB_PATH, MOSCOW_TZ
-from database import get_notes, get_tasks
-from utils import escape_markdown, get_now_msk
+from .config import DB_PATH, MOSCOW_TZ
+from .database import get_notes, get_tasks
+from .utils import escape_markdown, get_now_msk
 
 _HEADERS = {
     'morning':    "🌅 **УТРЕННИЙ ПЛАН**",

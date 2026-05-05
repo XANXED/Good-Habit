@@ -5,9 +5,9 @@ from datetime import datetime, timedelta
 import aiosqlite
 from aiogram import Bot
 
-from config import DB_PATH
-from reports import send_report_to_chat
-from utils import get_now_msk
+from .config import DB_PATH
+from .reports import send_report_to_chat
+from .utils import get_now_msk
 
 
 async def send_startup_notifications(bot: Bot):
@@ -33,6 +33,14 @@ async def send_startup_notifications(bot: Bot):
             logging.warning("Не удалось отправить стартовое уведомление user_id=%s: %s", user_id, e)
 
 
+async def _reset_old_completions(today: str):
+    """Удаляет записи о выполнении задач за прошлые дни."""
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute('DELETE FROM completions WHERE date < ?', (today,))
+        await db.commit()
+    logging.info("Сброс старых отметок выполнен.")
+
+
 async def check_time_loop(bot: Bot):
     last_sent: dict[str, str] = {}
 
@@ -41,6 +49,11 @@ async def check_time_loop(bot: Bot):
             now = get_now_msk()
             t_now = now.strftime("%H:%M")
             d_now = now.strftime("%Y-%m-%d")
+
+            # Сброс отметок о выполнении привычек в 23:59
+            if t_now == "23:59" and last_sent.get("reset") != d_now:
+                await _reset_old_completions(d_now)
+                last_sent["reset"] = d_now
 
             async with aiosqlite.connect(DB_PATH) as db:
                 groups = await db.execute_fetchall(

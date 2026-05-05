@@ -6,7 +6,7 @@ from aiogram.types import (
     ReplyKeyboardMarkup,
 )
 
-from config import DB_PATH
+from .config import DB_PATH
 
 
 def get_private_kb() -> ReplyKeyboardMarkup:

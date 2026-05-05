@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from config import MOSCOW_TZ
+from .config import MOSCOW_TZ
 
 
 def get_now_msk() -> datetime:
