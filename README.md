@@ -28,8 +28,10 @@ Both scripts install the required dependencies and start the bot automatically.
 ### Manual setup (any platform)
 
 ```bash
+python3 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install aiogram aiosqlite pytz
-python3 main.py
+python main.py
 ```
 
 ## Features

@@ -4,7 +4,7 @@ from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from .config import DB_PATH
+from .config import DB_PATH, OWNER_ID
 from .database import get_tasks
 from .keyboards import get_private_kb, get_user_groups_kb
 from .reports import send_report_to_chat
@@ -280,3 +280,27 @@ async def ignore_click(c: types.CallbackQuery):
 async def back_to_groups(c: types.CallbackQuery):
     kb = await get_user_groups_kb(c.from_user.id, "view_list")
     await c.message.edit_text("📋 **Выберите группу:**", reply_markup=kb, parse_mode="Markdown")
+
+
+# ─── Бэкап БД ─────────────────────────────────────────────────────────────────
+
+@router.message(F.chat.type == "private", Command("backup"))
+async def send_backup(m: types.Message):
+    import os
+    from aiogram.types import FSInputFile
+
+    if OWNER_ID is None:
+        return await m.answer("⛔ Команда отключена. Задайте OWNER\\_ID в config.py.", parse_mode="Markdown")
+
+    if m.from_user.id != OWNER_ID:
+        return await m.answer("⛔ Недостаточно прав.")
+
+    if not os.path.exists(DB_PATH):
+        return await m.answer("❌ Файл базы данных не найден.")
+
+    timestamp = get_now_msk().strftime("%Y-%m-%d_%H-%M")
+    await m.answer_document(
+        FSInputFile(DB_PATH, filename=f"goodhabit_backup_{timestamp}.db"),
+        caption=f"💾 Резервная копия БД\n`{timestamp}`",
+        parse_mode="Markdown",
+    )

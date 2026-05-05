@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-echo "==> Installing dependencies..."
-pip3 install aiogram aiosqlite pytz
+python3 -m venv .venv
+.venv/bin/pip install aiogram aiosqlite pytz
 
 echo "==> Starting GoodHabit bot..."
-python3 main.py
+.venv/bin/python main.py
